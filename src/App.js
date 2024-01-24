@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
@@ -27,39 +26,49 @@ const App = () => {
   const [myName,setMyName]=useState('');
   const formFilled = (event) => {
     event.preventDefault();
-    setMyName(fullName.fName+' '+fullName.lName+' '+fullName.email)
+    setMyName(fullName.fName+' '+fullName.lName+' '+fullName.email+' '+fullName.number)
   }
 
   const [fullName, setFullName] = useState({
     fName: '',
     lName: '',
-    email:''
+    email:'',
+    number:''
   })
 
   const changeValue = (event) => {
-    const value = event.target.value;
-    const name = event.target.name;
+    // const value = event.target.value;
+    // const name = event.target.name;
+
+    const {name,value} =event.target;
     setFullName((preValue) => {
       console.log(preValue);
-      if (name === "fName") {
-        return {
-          fName: value,
-          lName: preValue.lName,
-          email:preValue.email
-        }
-      } else if (name === "lName") {
-        return {
-          fName: preValue.fName,
-          lName: value,
-          email:preValue.email
-        }
-      }else{
-        return{
-          fName:preValue.fName,
-          lName: preValue.lName,
-          email:value
-        }
+
+      return{
+        ...preValue,  // ye spread operator h iska use krke sara prevalue ka object hmne fullname me copy kr diya
+        [name]:value  //jo yha pr name h means wo name jo hmne input me likha h agr wo name match kr jata
+                     // h to value us name me assign ho jayegi , agr bina brackets ke likhe to object me
+                     // new attribute add ho jayega 
       }
+      // if (name === "fName") {
+      //   return {
+      //     fName: value,
+      //     lName: preValue.lName,
+      //     email:preValue.email
+      //   }
+      // } else if (name === "lName") {
+      //   return {
+      //     fName: preValue.fName,
+      //     lName: value,
+      //     email:preValue.email
+      //   }
+      // }else{
+      //   return{
+      //     fName:preValue.fName,
+      //     lName: preValue.lName,
+      //     email:value
+      //   }
+      // }
     })
   }
   return (
@@ -85,6 +94,9 @@ const App = () => {
             <br/>
             <input type='email' placeholder='Enter Your Email' name='email' onChange={changeValue}
             value={fullName.email}></input>
+            <br/>
+            <input type='number' placeholder='Enter Your Number' name='number' onChange={changeValue}
+            value={fullName.number}></input>
           <button type='submit'>Submit</button>
         </div>
       </form>
